@@ -1,0 +1,13 @@
+{% extends "network/layout.html" %}
+{% load i18n %}
+
+{% block body %}
+    {% for post in page_obj.object_list %}
+        {% include "network/posts.html"%}
+    {% empty %}
+        <div class="no-posts">
+            {% trans "No posts yet" %}
+        </div>
+    {% endfor %}
+        {% include "network/paginator.html"%}
+{% endblock %}

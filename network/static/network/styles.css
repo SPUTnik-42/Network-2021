@@ -1,0 +1,44 @@
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    background-color: #F0F2F5;
+    margin: 0 0 180px;
+}
+.post-form-wrapper{
+    padding-top: 3%;
+    width: 70%;
+    padding-left: 35%;
+}
+
+.post-user {
+    text-transform:capitalize;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: larger;
+}
+
+.post-element {
+    padding-top: 7%;
+    width: 70%;
+    padding-left: 35%;
+}
+
+.post-date {
+    padding-bottom: 3%;
+}
+
+.post-content {
+    padding-bottom: 3%;
+}
+
+.post {
+    padding-bottom: 2px;
+}
+
+#bottom-nav {
+    height: 50px;
+}
+
+

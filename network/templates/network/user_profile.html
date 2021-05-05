@@ -1,0 +1,88 @@
+{% extends "network/layout.html" %}
+{% load i18n %}
+{% load static %}
+
+
+{% block extra_css %}
+    <link href="{% static 'network/user_profile.css' %}" rel="stylesheet">
+{% endblock %}
+
+
+
+
+{% block body %}
+    <div class="user-profile">
+       
+        <div class="profile-username">
+            {{ user_data.username }}
+        </div>
+        <div class="profile-buttons">
+            {% if user.id != user_data.id %}
+                <form  method="POST" action="{% url 'follow-unfollow' user_id=user_data.id %}"> <!--action="% url 'network:follow-unfollow' user_id=user_data.id %}"-->
+                    {% csrf_token %}
+                {% if user in followers%}
+                        <button type="submit" class="btn btn-danger unfollow">
+                            
+                            {% trans "Unfollow" %}
+                        </button>
+                {% else %}
+                        <button type="submit" class="btn btn-success follow">
+                            
+                            {% trans "Follow" %}
+                        </button>
+                {% endif %}
+                </form>     
+            {% endif %}
+        </div>
+        <div class="profile-following info-card">
+                <div class="followers">
+                
+                <span class="follow-text">
+                    Followers <span class="follow-count">{{ followers.count }}</span>
+                </span>
+            </div>
+            <div class="following">
+                
+                <span class="follow-text">
+                    Following <span class="follow-count">{{ following.count }}</span>
+                </span>
+            </div>
+        </div>
+        <div class="bio-info-card">
+            <h4>BIO</h4>
+            <div class="profile-name">
+                
+                <span>
+                    {% trans "Name:" %} 
+                    {% if user_data.profile.about == "" or user_data.profile.about is None %}
+                        ---
+                    {% else %}
+                        {{ user_data.profile.name }}
+                    {% endif %}
+                </span>
+            </div>
+
+            <div class="profile-about">
+               
+                <span>
+                    {% trans "About:" %}
+                    {% if user_data.profile.about == "" or user_data.profile.about is None %}
+                        ---
+                    {% else %}
+                        {{ user_data.profile.about }}
+                    {% endif %}
+                </span>
+            </div>
+
+        </div>
+    </div>
+    <h3 style="padding-left: 34%;">POSTS:-</h3>
+    {% for post in page_obj.object_list%}
+        {% include "network/posts.html"%}
+    {% empty %}
+        <div class="no-posts">
+            {% trans "No posts yet" %}
+        </div>
+    {% endfor %}
+        {% include "network/paginator.html"%}
+{% endblock %}

@@ -1,0 +1,70 @@
+
+{% load i18n %}
+
+<div class="post-element">
+    <div class="post" id='post_{{ post.id }}'>
+        <div class="post-user">
+            <a href="{% url 'user-profile' user_id=post.user.id %}" >{{ post.user }} :-</a>
+           
+        </div>
+        {% if user.id == post.user.id %}
+            <div class="delete-edit-panel">
+                <div>
+                    <button class="btn btn-secondary" id="edit-button" data-id="{{ post.id }}" data-toggle="modal" data-target="#modal_edit_post_{{ post.id }}">Edit</button>
+                </div>
+            </div>
+            <div class="modal fade edit-modal" id="modal_edit_post_{{ post.id }}" tabindex="-1" role="dialog" aria-labelledby="modal_edit_post_{{ post.id }}_label" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title" id="modal_edit_post_{{ post.id }}_label">{% trans "What did you really want to say?" %}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                        <div class="modal-body">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary modal-close" data-dismiss="modal">{% trans "Close" %}</button>
+                            <button type="button" class="btn btn-primary modal-save">{% trans "Save" %}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        <div class="post-date">
+            {% trans "Posted: " %} {{post.date|timesince}} {% trans "ago" %}
+        </div>
+        <div class="post-content">
+            {{ post.text }}
+        </div>
+        <div class="like-data">
+            <span class="like-counter">{{ post.likes_int }}</span>    ❤️
+        </div>
+
+
+        {% if user.is_authenticated %}
+        <div class="like-comment-control">
+            <form class="like-panel" action = "{% url 'like' action_id=post.id %}" method="GET" onsubmit="window.location.reload()">
+                {% csrf_token %}
+                <input class="btn btn-primary" name="like" type="submit" value='{% trans "Like / Unlike" %}'>
+            </form>
+        </div>
+        {% endif %}
+
+    </div>
+    <!--<div class="edit-div" >
+
+        <form id="edit-post">
+            <div class="form-group">
+                <span>"What did you want to say ?"</span>
+            </div>
+            <textarea class="form-control" id="edit-body" placeholder="{{ post.text }}}"></textarea>
+            <input id="submit-btn" type="submit" class="btn btn-primary"/>
+        </form>
+
+    </div>-->
+</div>
+
+
+
